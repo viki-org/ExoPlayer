@@ -295,6 +295,9 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
   @Override
   public void onLoadCompleted(Chunk loadable, long elapsedRealtimeMs, long loadDurationMs) {
     chunkSource.onChunkLoadCompleted(loadable);
+    if( loadable instanceof BaseMediaChunk ){
+      eventDispatcher.chunkLoadedFinished( (BaseMediaChunk)loadable );
+    }
     eventDispatcher.loadCompleted(loadable.dataSpec, loadable.type, primaryTrackType,
         loadable.trackFormat, loadable.trackSelectionReason, loadable.trackSelectionData,
         loadable.startTimeUs, loadable.endTimeUs, elapsedRealtimeMs, loadDurationMs,
@@ -392,6 +395,8 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
       BaseMediaChunk mediaChunk = (BaseMediaChunk) loadable;
       mediaChunk.init(mediaChunkOutput);
       mediaChunks.add(mediaChunk);
+      eventDispatcher.chunkLoadedStarted( (BaseMediaChunk) loadable );
+
     }
     long elapsedRealtimeMs = loader.startLoading(loadable, this, minLoadableRetryCount);
     eventDispatcher.loadStarted(loadable.dataSpec, loadable.type, primaryTrackType,

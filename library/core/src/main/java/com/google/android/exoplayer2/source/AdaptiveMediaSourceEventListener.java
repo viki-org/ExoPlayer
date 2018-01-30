@@ -20,6 +20,7 @@ import android.os.SystemClock;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.source.chunk.BaseMediaChunk;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.util.Assertions;
 import java.io.IOException;
@@ -173,6 +174,21 @@ public interface AdaptiveMediaSourceEventListener {
   void onDownstreamFormatChanged(int trackType, Format trackFormat, int trackSelectionReason,
       Object trackSelectionData, long mediaTimeMs);
 
+
+  /**
+   * called when a fragmented mp4's chunk has started loading
+   * @param mediaChunk
+   */
+  void onChunkLoadStarted(BaseMediaChunk mediaChunk);
+
+
+  /**
+   * called when a fragmented mp4's chunk has finished loading
+   * @param mediaChunk
+   */
+  void onChunkLoadCompleted(BaseMediaChunk mediaChunk);
+
+
   /**
    * Dispatches events to a {@link AdaptiveMediaSourceEventListener}.
    */
@@ -212,6 +228,28 @@ public interface AdaptiveMediaSourceEventListener {
             listener.onLoadStarted(dataSpec, dataType, trackType, trackFormat, trackSelectionReason,
                 trackSelectionData, adjustMediaTime(mediaStartTimeUs),
                 adjustMediaTime(mediaEndTimeUs), elapsedRealtimeMs);
+          }
+        });
+      }
+    }
+
+    public void chunkLoadedStarted(final BaseMediaChunk chunk){
+      if( listener != null  ){
+        handler.post(new Runnable() {
+          @Override
+          public void run() {
+            listener.onChunkLoadStarted(chunk);
+          }
+        });
+      }
+    }
+
+    public void chunkLoadedFinished(final BaseMediaChunk chunk){
+      if( listener != null ){
+        handler.post(new Runnable() {
+          @Override
+          public void run() {
+            listener.onChunkLoadCompleted(chunk);
           }
         });
       }

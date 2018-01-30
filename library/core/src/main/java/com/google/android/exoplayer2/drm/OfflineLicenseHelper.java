@@ -98,7 +98,7 @@ public final class OfflineLicenseHelper<T extends ExoMediaCrypto> {
       throws UnsupportedDrmException {
     return new OfflineLicenseHelper<>(C.WIDEVINE_UUID,
         FrameworkMediaDrm.newInstance(C.WIDEVINE_UUID),
-        new HttpMediaDrmCallback(defaultLicenseUrl, forceDefaultLicenseUrl, httpDataSourceFactory),
+        new HttpMediaDrmCallback(defaultLicenseUrl, forceDefaultLicenseUrl, httpDataSourceFactory,null),
         optionalKeyRequestParameters);
   }
 

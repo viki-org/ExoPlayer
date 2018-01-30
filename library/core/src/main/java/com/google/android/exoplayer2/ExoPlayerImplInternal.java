@@ -59,6 +59,8 @@ import java.io.IOException;
   public static final int MSG_SOURCE_INFO_REFRESHED = 5;
   public static final int MSG_PLAYBACK_PARAMETERS_CHANGED = 6;
   public static final int MSG_ERROR = 7;
+  public static final int MSG_RENDERING_CHANGED = 8;
+
 
   // Internal messages
   private static final int MSG_PREPARE = 0;
@@ -124,6 +126,8 @@ import java.io.IOException;
   private int customMessagesSent;
   private int customMessagesProcessed;
   private long elapsedRealtimeUs;
+  private boolean isRendering;
+
 
   private int pendingPrepareCount;
   private int pendingInitialSeekCount;
@@ -600,6 +604,7 @@ import java.io.IOException;
           ? (allRenderersReadyOrEnded
               && loadingPeriodHolder.haveSufficientBuffer(rebuffering, rendererPositionUs))
           : isTimelineReady(playingPeriodDurationUs);
+      setIsRendering(isNewlyReady);
       if (isNewlyReady) {
         setState(Player.STATE_READY);
         if (playWhenReady) {
@@ -609,6 +614,7 @@ import java.io.IOException;
     } else if (state == Player.STATE_READY) {
       boolean isStillReady = enabledRenderers.length > 0 ? allRenderersReadyOrEnded
           : isTimelineReady(playingPeriodDurationUs);
+      setIsRendering(isStillReady);
       if (!isStillReady) {
         rebuffering = playWhenReady;
         setState(Player.STATE_BUFFERING);
@@ -1444,6 +1450,13 @@ import java.io.IOException;
     while (periodHolder != null) {
       periodHolder.release();
       periodHolder = periodHolder.next;
+    }
+  }
+
+  private void setIsRendering(boolean isRendering) {
+    if (this.isRendering != isRendering) {
+      this.isRendering = isRendering;
+      eventHandler.obtainMessage(MSG_RENDERING_CHANGED, this.isRendering ? 1 : 0, 0).sendToTarget();
     }
   }
 

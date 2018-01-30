@@ -477,6 +477,13 @@ import java.util.concurrent.CopyOnWriteArraySet;
             /* ignored */ DISCONTINUITY_REASON_INTERNAL);
         break;
       }
+      case ExoPlayerImplInternal.MSG_RENDERING_CHANGED: {
+        boolean isRendering = msg.arg1 != 0;
+        for (Player.EventListener listener : listeners) {
+          listener.onRenderingChanged(isRendering);
+        }
+        break;
+      }
       case ExoPlayerImplInternal.MSG_TRACKS_CHANGED: {
         if (pendingPrepareAcks == 0) {
           TrackSelectorResult trackSelectorResult = (TrackSelectorResult) msg.obj;

@@ -35,12 +35,17 @@ import java.util.List;
  */
 public final class SubtitleView extends View implements TextOutput {
 
+  private boolean isLargeScreen;
+
   /**
    * The default fractional text size.
    *
    * @see #setFractionalTextSize(float, boolean)
    */
   public static final float DEFAULT_TEXT_SIZE_FRACTION = 0.0533f;
+  private static final float DEFAULT_PHONE_FONT_SCALE = 1.5f;
+  private static final float DEFAULT_TABLET_FONT_SCALE = 1.05f;
+
 
   /**
    * The default bottom padding to apply when {@link Cue#line} is {@link Cue#DIMEN_UNSET}, as a
@@ -127,8 +132,17 @@ public final class SubtitleView extends View implements TextOutput {
    * default size before API level 19.
    */
   public void setUserDefaultTextSize() {
-    float fontScale = Util.SDK_INT >= 19 && !isInEditMode() ? getUserCaptionFontScaleV19() : 1f;
+    float fontScale = Util.SDK_INT >= 19 && !isInEditMode() ? getUserCaptionFontScaleV19() : isLargeScreen?DEFAULT_TABLET_FONT_SCALE:DEFAULT_PHONE_FONT_SCALE;
     setFractionalTextSize(DEFAULT_TEXT_SIZE_FRACTION * fontScale);
+  }
+
+
+  /**
+   * set if the subtitle should adjust to tablet or large screen, the subtitle text size will then be smaller
+   * @param flag true if the screen is large screen
+   */
+  public void setIsLargeScreen(boolean flag){
+    this.isLargeScreen = flag;
   }
 
   /**

@@ -141,6 +141,9 @@ public interface Player {
      */
     void onSeekProcessed();
 
+
+    void onRenderingChanged(boolean isRendering);
+
   }
 
   /**
@@ -198,6 +201,10 @@ public interface Player {
       // Do nothing.
     }
 
+    @Override
+    public void onRenderingChanged(boolean isRendering) {
+
+    }
   }
 
   /**
