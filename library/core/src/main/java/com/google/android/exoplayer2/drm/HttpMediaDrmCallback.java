@@ -118,9 +118,9 @@ public final class HttpMediaDrmCallback implements MediaDrmCallback {
     }
 
     @Override
-    public byte[] executeKeyRequest(UUID uuid, KeyRequest request) throws Exception {
+    public byte[] executeKeyRequest(UUID uuid, KeyRequest request, boolean initRequest) throws Exception {
         String url = request.getDefaultUrl();
-        if (drmStartCallback != null) {
+        if (drmStartCallback != null && initRequest) {
             drmStartCallback.onStart();
         }
         if (forceDefaultLicenseUrl || TextUtils.isEmpty(url)) {

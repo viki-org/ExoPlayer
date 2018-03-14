@@ -525,7 +525,7 @@ import java.util.UUID;
             response = callback.executeProvisionRequest(uuid, (ProvisionRequest) msg.obj);
             break;
           case MSG_KEYS:
-            response = callback.executeKeyRequest(uuid, (KeyRequest) msg.obj);
+            response = callback.executeKeyRequest(uuid, (KeyRequest) msg.obj, msg.arg2 == 0);
             break;
           default:
             throw new RuntimeException();
