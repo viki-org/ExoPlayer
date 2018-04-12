@@ -43,8 +43,8 @@ public final class SubtitleView extends View implements TextOutput {
    * @see #setFractionalTextSize(float, boolean)
    */
   public static final float DEFAULT_TEXT_SIZE_FRACTION = 0.0533f;
-  private static final float DEFAULT_PHONE_FONT_SCALE = 1.5f;
-  private static final float DEFAULT_TABLET_FONT_SCALE = 1.05f;
+  private static final float DEFAULT_PHONE_FONT_SCALE = 1.05f;
+  private static final float DEFAULT_TABLET_FONT_SCALE = 1.5f;
 
 
   /**
