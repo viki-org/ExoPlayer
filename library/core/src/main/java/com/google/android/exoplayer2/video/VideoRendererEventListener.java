@@ -47,7 +47,7 @@ public interface VideoRendererEventListener {
    * @param initializationDurationMs The time taken to initialize the decoder in milliseconds.
    */
   void onVideoDecoderInitialized(String decoderName, long initializedTimestampMs,
-      long initializationDurationMs);
+                                 long initializationDurationMs);
 
   /**
    * Called when the format of the media being consumed by the renderer changes.
@@ -87,7 +87,7 @@ public interface VideoRendererEventListener {
    *     content.
    */
   void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees,
-      float pixelWidthHeightRatio);
+                          float pixelWidthHeightRatio);
 
   /**
    * Called when a frame is rendered for the first time since setting the surface, and when a frame
@@ -105,6 +105,17 @@ public interface VideoRendererEventListener {
    */
   void onVideoDisabled(DecoderCounters counters);
 
+
+  /**
+   *call when the format is filtered out because of
+   *
+   * @param adaptiveSupport if the format is adaptive
+   * @param tunnelingSupport if the format can supports tunneling
+   * @param formatSupport if the format is supported from codecs and frame perspective
+   * @param format the format which we are checking
+   */
+  void onVideoFormatFiltered(final boolean adaptiveSupport, final boolean tunnelingSupport, final boolean formatSupport, final Format format);
+
   /**
    * Dispatches events to a {@link VideoRendererEventListener}.
    */
@@ -119,7 +130,7 @@ public interface VideoRendererEventListener {
      *     dummy instance.
      */
     public EventDispatcher(@Nullable Handler handler,
-        @Nullable VideoRendererEventListener listener) {
+                           @Nullable VideoRendererEventListener listener) {
       this.handler = listener != null ? Assertions.checkNotNull(handler) : null;
       this.listener = listener;
     }
@@ -142,13 +153,13 @@ public interface VideoRendererEventListener {
      * Invokes {@link VideoRendererEventListener#onVideoDecoderInitialized(String, long, long)}.
      */
     public void decoderInitialized(final String decoderName,
-        final long initializedTimestampMs, final long initializationDurationMs) {
+                                   final long initializedTimestampMs, final long initializationDurationMs) {
       if (listener != null) {
         handler.post(new Runnable() {
           @Override
           public void run() {
             listener.onVideoDecoderInitialized(decoderName, initializedTimestampMs,
-                initializationDurationMs);
+                    initializationDurationMs);
           }
         });
       }
@@ -163,6 +174,17 @@ public interface VideoRendererEventListener {
           @Override
           public void run() {
             listener.onVideoInputFormatChanged(format);
+          }
+        });
+      }
+    }
+
+    public void onFormatFiltered(final boolean adaptiveSupport, final boolean tunnelingSupport, final boolean formatSupport, final Format format ){
+      if( listener != null ){
+        handler.post(new Runnable() {
+          @Override
+          public void run() {
+            listener.onVideoFormatFiltered( adaptiveSupport, tunnelingSupport, formatSupport, format );
           }
         });
       }
@@ -186,13 +208,13 @@ public interface VideoRendererEventListener {
      * Invokes {@link VideoRendererEventListener#onVideoSizeChanged(int, int, int, float)}.
      */
     public void videoSizeChanged(final int width, final int height,
-        final int unappliedRotationDegrees, final float pixelWidthHeightRatio) {
+                                 final int unappliedRotationDegrees, final float pixelWidthHeightRatio) {
       if (listener != null) {
         handler.post(new Runnable()  {
           @Override
           public void run() {
             listener.onVideoSizeChanged(width, height, unappliedRotationDegrees,
-                pixelWidthHeightRatio);
+                    pixelWidthHeightRatio);
           }
         });
       }

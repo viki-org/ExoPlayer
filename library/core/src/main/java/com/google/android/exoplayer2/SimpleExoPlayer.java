@@ -72,7 +72,7 @@ public class SimpleExoPlayer implements ExoPlayer {
      *     content.
      */
     void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees,
-        float pixelWidthHeightRatio);
+                            float pixelWidthHeightRatio);
 
     /**
      * Called when a frame is rendered for the first time since setting the surface, and when a
@@ -112,7 +112,7 @@ public class SimpleExoPlayer implements ExoPlayer {
   private float audioVolume;
 
   protected SimpleExoPlayer(RenderersFactory renderersFactory, TrackSelector trackSelector,
-      LoadControl loadControl) {
+                            LoadControl loadControl) {
     componentListener = new ComponentListener();
     videoListeners = new CopyOnWriteArraySet<>();
     textOutputs = new CopyOnWriteArraySet<>();
@@ -120,7 +120,7 @@ public class SimpleExoPlayer implements ExoPlayer {
     Looper eventLooper = Looper.myLooper() != null ? Looper.myLooper() : Looper.getMainLooper();
     Handler eventHandler = new Handler(eventLooper);
     renderers = renderersFactory.createRenderers(eventHandler, componentListener, componentListener,
-        componentListener, componentListener);
+            componentListener, componentListener);
 
     // Obtain counts of video and audio renderers.
     int videoRendererCount = 0;
@@ -163,7 +163,7 @@ public class SimpleExoPlayer implements ExoPlayer {
     for (Renderer renderer : renderers) {
       if (renderer.getTrackType() == C.TRACK_TYPE_VIDEO) {
         messages[count++] = new ExoPlayerMessage(renderer, C.MSG_SET_SCALING_MODE,
-            videoScalingMode);
+                videoScalingMode);
       }
     }
     player.sendMessages(messages);
@@ -281,7 +281,7 @@ public class SimpleExoPlayer implements ExoPlayer {
       }
       textureView.setSurfaceTextureListener(componentListener);
       SurfaceTexture surfaceTexture = textureView.isAvailable() ? textureView.getSurfaceTexture()
-          : null;
+              : null;
       setVideoSurfaceInternal(surfaceTexture == null ? null : new Surface(surfaceTexture), true);
     }
   }
@@ -315,7 +315,7 @@ public class SimpleExoPlayer implements ExoPlayer {
     @C.AudioUsage int usage = Util.getAudioUsageForStreamType(streamType);
     @C.AudioContentType int contentType = Util.getAudioContentTypeForStreamType(streamType);
     AudioAttributes audioAttributes =
-        new AudioAttributes.Builder().setUsage(usage).setContentType(contentType).build();
+            new AudioAttributes.Builder().setUsage(usage).setContentType(contentType).build();
     setAudioAttributes(audioAttributes);
   }
 
@@ -352,7 +352,7 @@ public class SimpleExoPlayer implements ExoPlayer {
     for (Renderer renderer : renderers) {
       if (renderer.getTrackType() == C.TRACK_TYPE_AUDIO) {
         messages[count++] = new ExoPlayerMessage(renderer, C.MSG_SET_AUDIO_ATTRIBUTES,
-            audioAttributes);
+                audioAttributes);
       }
     }
     player.sendMessages(messages);
@@ -825,7 +825,7 @@ public class SimpleExoPlayer implements ExoPlayer {
    * @return A new {@link ExoPlayer} instance.
    */
   protected ExoPlayer createExoPlayerImpl(Renderer[] renderers, TrackSelector trackSelector,
-      LoadControl loadControl) {
+                                          LoadControl loadControl) {
     return new ExoPlayerImpl(renderers, trackSelector, loadControl);
   }
 
@@ -869,8 +869,8 @@ public class SimpleExoPlayer implements ExoPlayer {
   }
 
   private final class ComponentListener implements VideoRendererEventListener,
-      AudioRendererEventListener, TextOutput, MetadataOutput, SurfaceHolder.Callback,
-      TextureView.SurfaceTextureListener {
+          AudioRendererEventListener, TextOutput, MetadataOutput, SurfaceHolder.Callback,
+          TextureView.SurfaceTextureListener {
 
     // VideoRendererEventListener implementation
 
@@ -884,10 +884,10 @@ public class SimpleExoPlayer implements ExoPlayer {
 
     @Override
     public void onVideoDecoderInitialized(String decoderName, long initializedTimestampMs,
-        long initializationDurationMs) {
+                                          long initializationDurationMs) {
       if (videoDebugListener != null) {
         videoDebugListener.onVideoDecoderInitialized(decoderName, initializedTimestampMs,
-            initializationDurationMs);
+                initializationDurationMs);
       }
     }
 
@@ -908,14 +908,14 @@ public class SimpleExoPlayer implements ExoPlayer {
 
     @Override
     public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees,
-        float pixelWidthHeightRatio) {
+                                   float pixelWidthHeightRatio) {
       for (VideoListener videoListener : videoListeners) {
         videoListener.onVideoSizeChanged(width, height, unappliedRotationDegrees,
-            pixelWidthHeightRatio);
+                pixelWidthHeightRatio);
       }
       if (videoDebugListener != null) {
         videoDebugListener.onVideoSizeChanged(width, height, unappliedRotationDegrees,
-            pixelWidthHeightRatio);
+                pixelWidthHeightRatio);
       }
     }
 
@@ -960,10 +960,10 @@ public class SimpleExoPlayer implements ExoPlayer {
 
     @Override
     public void onAudioDecoderInitialized(String decoderName, long initializedTimestampMs,
-        long initializationDurationMs) {
+                                          long initializationDurationMs) {
       if (audioDebugListener != null) {
         audioDebugListener.onAudioDecoderInitialized(decoderName, initializedTimestampMs,
-            initializationDurationMs);
+                initializationDurationMs);
       }
     }
 
@@ -977,7 +977,7 @@ public class SimpleExoPlayer implements ExoPlayer {
 
     @Override
     public void onAudioSinkUnderrun(int bufferSize, long bufferSizeMs,
-        long elapsedSinceLastFeedMs) {
+                                    long elapsedSinceLastFeedMs) {
       if (audioDebugListener != null) {
         audioDebugListener.onAudioSinkUnderrun(bufferSize, bufferSizeMs, elapsedSinceLastFeedMs);
       }
@@ -1051,6 +1051,15 @@ public class SimpleExoPlayer implements ExoPlayer {
       // Do nothing.
     }
 
+    @Override
+    public void onVideoFormatFiltered(boolean adaptiveSupport, boolean tunnelingSupport, boolean formatSupport, Format format) {
+
+    }
+
+    @Override
+    public void onAudioFormatFiltered(boolean adaptiveSupport, boolean tunnelingSupport, boolean formatSupport, Format format) {
+
+    }
   }
 
 }

@@ -53,7 +53,7 @@ public interface AudioRendererEventListener {
    * @param initializationDurationMs The time taken to initialize the decoder in milliseconds.
    */
   void onAudioDecoderInitialized(String decoderName, long initializedTimestampMs,
-      long initializationDurationMs);
+                                 long initializationDurationMs);
 
   /**
    * Called when the format of the media being consumed by the renderer changes.
@@ -80,6 +80,18 @@ public interface AudioRendererEventListener {
    */
   void onAudioDisabled(DecoderCounters counters);
 
+
+  /**
+   *call when the format is filtered out because of
+   *
+   * @param adaptiveSupport if the format is adaptive
+   * @param tunnelingSupport if the format can supports tunneling
+   * @param formatSupport if the format is supported from codecs and frame perspective
+   * @param format the format which we are checking
+   */
+  void onAudioFormatFiltered(final boolean adaptiveSupport, final boolean tunnelingSupport, final boolean formatSupport, final Format format);
+
+
   /**
    * Dispatches events to a {@link AudioRendererEventListener}.
    */
@@ -94,7 +106,7 @@ public interface AudioRendererEventListener {
      *     dummy instance.
      */
     public EventDispatcher(@Nullable Handler handler,
-        @Nullable AudioRendererEventListener listener) {
+                           @Nullable AudioRendererEventListener listener) {
       this.handler = listener != null ? Assertions.checkNotNull(handler) : null;
       this.listener = listener;
     }
@@ -117,13 +129,13 @@ public interface AudioRendererEventListener {
      * Invokes {@link AudioRendererEventListener#onAudioDecoderInitialized(String, long, long)}.
      */
     public void decoderInitialized(final String decoderName,
-        final long initializedTimestampMs, final long initializationDurationMs) {
+                                   final long initializedTimestampMs, final long initializationDurationMs) {
       if (listener != null) {
         handler.post(new Runnable() {
           @Override
           public void run() {
             listener.onAudioDecoderInitialized(decoderName, initializedTimestampMs,
-                initializationDurationMs);
+                    initializationDurationMs);
           }
         });
       }
@@ -147,7 +159,7 @@ public interface AudioRendererEventListener {
      * Invokes {@link AudioRendererEventListener#onAudioSinkUnderrun(int, long, long)}.
      */
     public void audioTrackUnderrun(final int bufferSize, final long bufferSizeMs,
-        final long elapsedSinceLastFeedMs) {
+                                   final long elapsedSinceLastFeedMs) {
       if (listener != null) {
         handler.post(new Runnable()  {
           @Override
@@ -186,6 +198,19 @@ public interface AudioRendererEventListener {
         });
       }
     }
+
+    public void onFormatFiltered(final boolean adaptiveSupport, final boolean tunnelingSupport, final boolean formatSupport, final Format format ){
+      if( listener != null ){
+        handler.post(new Runnable() {
+          @Override
+          public void run() {
+            listener.onAudioFormatFiltered( adaptiveSupport, tunnelingSupport, formatSupport, format );
+          }
+        });
+      }
+    }
+
+
 
   }
 
