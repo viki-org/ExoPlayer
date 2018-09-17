@@ -15,18 +15,18 @@ apply from: '../../constants.gradle'
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion project.ext.compileSdkVersion
-    buildToolsVersion project.ext.buildToolsVersion
+    compileSdkVersion rootProject.compileSDK
+    buildToolsVersion rootProject.buildTools
 
     defaultConfig {
-        minSdkVersion project.ext.minSdkVersion
-        targetSdkVersion project.ext.targetSdkVersion
+        minSdkVersion rootProject.minSDK
+        targetSdkVersion rootProject.targetSDK
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 }
 
 dependencies {
-    compile project(modulePrefix + 'library-core')
+    implementation project(modulePrefix + 'library-core')
     // This dependency is necessary to force the supportLibraryVersion of
     // com.android.support:support-v4 to be used. Else an older version (25.2.0)
     // is included via:
@@ -34,14 +34,14 @@ dependencies {
     // |-- com.google.android.gms:play-services-ads-lite:11.4.2
     //   |-- com.google.android.gms:play-services-basement:11.4.2
     //     |-- com.android.support:support-v4:25.2.0
-    compile 'com.android.support:support-v4:' + supportLibraryVersion
-    compile 'com.google.ads.interactivemedia.v3:interactivemedia:3.7.4'
-    compile 'com.google.android.gms:play-services-ads:' + playServicesLibraryVersion
-    androidTestCompile project(modulePrefix + 'library')
-    androidTestCompile 'com.google.dexmaker:dexmaker:' + dexmakerVersion
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:' + dexmakerVersion
-    androidTestCompile 'org.mockito:mockito-core:' + mockitoVersion
-    androidTestCompile 'com.android.support.test:runner:' + testSupportLibraryVersion
+    implementation 'com.android.support:support-v4:' + rootProject.supportLibraryVersion
+    implementation 'com.google.ads.interactivemedia.v3:interactivemedia:3.7.4'
+    implementation 'com.google.android.gms:play-services-ads:' + rootProject.playServicesAdsVersion
+    androidTestImplementation project(modulePrefix + 'library')
+    androidTestImplementation 'com.google.dexmaker:dexmaker:' + dexmakerVersion
+    androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:' + dexmakerVersion
+    androidTestImplementation 'org.mockito:mockito-core:' + mockitoVersion
+    androidTestImplementation 'com.android.support.test:runner:' + testSupportLibraryVersion
 }
 
 ext {

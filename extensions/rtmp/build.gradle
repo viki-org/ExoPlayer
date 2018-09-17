@@ -15,18 +15,18 @@ apply from: '../../constants.gradle'
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion project.ext.compileSdkVersion
-    buildToolsVersion project.ext.buildToolsVersion
+    compileSdkVersion rootProject.compileSDK
+    buildToolsVersion rootProject.buildTools
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion project.ext.targetSdkVersion
+        minSdkVersion rootProject.minSDK
+        targetSdkVersion rootProject.targetSDK
     }
 }
 
 dependencies {
-    compile project(modulePrefix + 'library-core')
-    compile 'net.butterflytv.utils:rtmp-client:3.0.0'
+    implementation project(modulePrefix + 'library-core')
+    implementation 'net.butterflytv.utils:rtmp-client:3.0.0'
 }
 
 ext {

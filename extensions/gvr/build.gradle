@@ -15,18 +15,18 @@ apply from: '../../constants.gradle'
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion project.ext.compileSdkVersion
-    buildToolsVersion project.ext.buildToolsVersion
+    compileSdkVersion rootProject.compileSDK
+    buildToolsVersion rootProject.buildTools
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion project.ext.targetSdkVersion
+        minSdkVersion rootProject.minSDK
+        targetSdkVersion rootProject.targetSDK
     }
 }
 
 dependencies {
-    compile project(modulePrefix + 'library-core')
-    compile 'com.google.vr:sdk-audio:1.80.0'
+    implementation project(modulePrefix + 'library-core')
+    implementation 'com.google.vr:sdk-audio:1.80.0'
 }
 
 ext {

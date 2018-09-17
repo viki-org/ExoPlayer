@@ -15,12 +15,12 @@ apply from: '../../constants.gradle'
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion project.ext.compileSdkVersion
-    buildToolsVersion project.ext.buildToolsVersion
+    compileSdkVersion rootProject.compileSDK
+    buildToolsVersion rootProject.buildTools
 
     defaultConfig {
-        minSdkVersion project.ext.minSdkVersion
-        targetSdkVersion project.ext.targetSdkVersion
+        minSdkVersion rootProject.minSDK
+        targetSdkVersion rootProject.targetSDK
     }
 
     buildTypes {
@@ -33,8 +33,8 @@ android {
 }
 
 dependencies {
-    compile project(modulePrefix + 'library-core')
-    compile 'com.android.support:support-annotations:' + supportLibraryVersion
+    implementation project(modulePrefix + 'library-core')
+    implementation 'com.android.support:support-annotations:' + rootProject.supportLibraryVersion
 }
 
 ext {
