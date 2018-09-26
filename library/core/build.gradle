@@ -16,7 +16,6 @@ apply from: '../../constants.gradle'
 
 android {
     compileSdkVersion rootProject.compileSDK
-    buildToolsVersion rootProject.buildTools
 
     defaultConfig {
         minSdkVersion rootProject.minSDK
