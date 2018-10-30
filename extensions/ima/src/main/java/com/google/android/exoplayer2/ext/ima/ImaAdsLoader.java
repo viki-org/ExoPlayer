@@ -18,7 +18,7 @@ package com.google.android.exoplayer2.ext.ima;
 import android.content.Context;
 import android.net.Uri;
 import android.os.SystemClock;
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.webkit.WebView;

@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import junit.framework.Assert;
 
+
 /**
  * Fake {@link MediaSource} that provides a given timeline. Creating the period will return a
  * {@link FakeMediaPeriod} with a {@link TrackGroupArray} using the given {@link Format}s.
