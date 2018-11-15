@@ -15,11 +15,11 @@ apply from: '../../constants.gradle'
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion rootProject.compileSDK
+    compileSdkVersion project.ext.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion rootProject.minSDK
-        targetSdkVersion rootProject.targetSDK
+        minSdkVersion minSdkVersion
+        targetSdkVersion targetSdkVersion
     }
 
     buildTypes {
