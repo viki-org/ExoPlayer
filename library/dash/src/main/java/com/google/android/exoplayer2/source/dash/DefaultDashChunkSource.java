@@ -244,8 +244,9 @@ public class DefaultDashChunkSource implements DashChunkSource {
       segmentNum = previous.getNextChunkIndex();
       if (segmentNum < firstAvailableSegmentNum) {
         // This is before the first chunk in the current manifest.
-        fatalError = new BehindLiveWindowException();
-        return;
+        //fatalError = new BehindLiveWindowException();
+        //return;
+        segmentNum = firstAvailableSegmentNum;
       }
     }
 
