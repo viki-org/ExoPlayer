@@ -1076,10 +1076,12 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
   private static boolean codecNeedsSetOutputSurfaceWorkaround(String name) {
     // Work around https://github.com/google/ExoPlayer/issues/3236,
     // https://github.com/google/ExoPlayer/issues/3355 and
-    // https://github.com/google/ExoPlayer/issues/3439.
+    // https://github.com/google/ExoPlayer/issues/3439 and
+    // https://github.com/google/ExoPlayer/issues/4104.
     return (("deb".equals(Util.DEVICE) || "flo".equals(Util.DEVICE))
             && "OMX.qcom.video.decoder.avc".equals(name))
             || (("tcl_eu".equals(Util.DEVICE) || "SVP-DTV15".equals(Util.DEVICE)
+            || "QM16XE_U".equals(Util.DEVICE) // Philips QM163E
             || "BRAVIA_ATV2".equals(Util.DEVICE))
             && "OMX.MTK.VIDEO.DECODER.AVC".equals(name));
   }
